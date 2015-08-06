@@ -4,7 +4,11 @@ Preserves the file modification and accessed time of a file copied using gulp
 
 ## Install
 
-TBC
+Install with [npm](https://npmjs.org/package/gulp-preservetime)
+
+```
+npm install --save-dev gulp-preservetime
+```
 
 ## Example
 

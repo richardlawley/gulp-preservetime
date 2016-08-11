@@ -16,13 +16,13 @@ var firstTestFile = '/a',
 
 beforeEach(function() {
 	clearUp();
-	fs.mkdirsSync(subdir, 0o777);
+	fs.mkdirsSync(subdir, parseInt('777', 8));
 	fs.writeFileSync(srcdir + firstTestFile, 'Test Data', {
-		mode: 0o777
+		mode: parseInt('777', 8)
 	});
 	fs.utimesSync(srcdir + firstTestFile, atime, mtime);
 	fs.writeFileSync(srcdir + secondTestFile, 'Test Data', {
-		mode: 0o777
+		mode: parseInt('777', 8)
 	});
 	fs.utimesSync(srcdir + secondTestFile, atime, mtime);
 })

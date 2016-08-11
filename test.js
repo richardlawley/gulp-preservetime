@@ -16,10 +16,14 @@ var firstTestFile = '/a',
 
 beforeEach(function() {
 	clearUp();
-	fs.mkdirsSync(subdir);
-	fs.writeFileSync(srcdir + firstTestFile, 'Test Data');
+	fs.mkdirsSync(subdir, 0o777);
+	fs.writeFileSync(srcdir + firstTestFile, 'Test Data', {
+		mode: 0o777
+	});
 	fs.utimesSync(srcdir + firstTestFile, atime, mtime);
-	fs.writeFileSync(srcdir + secondTestFile, 'Test Data');
+	fs.writeFileSync(srcdir + secondTestFile, 'Test Data', {
+		mode: 0o777
+	});
 	fs.utimesSync(srcdir + secondTestFile, atime, mtime);
 })
 
@@ -58,6 +62,28 @@ it('should preserve file atime', function(cb) {
 
 			firstFileStats.atime.getTime().should.equal(atime.getTime());
 			secondFileStats.atime.getTime().should.equal(atime.getTime());
+
+			cb();
+		}));
+});
+
+it('should not alter file', function(cb) {
+
+	gulp.src(srcdir + '/**/*')
+		.pipe(gulp.dest(dest))
+		.pipe(preservetime())
+		.pipe(es.wait(function(err, data) {
+
+			// Read file modification times in dest
+			var firstFileContent = fs.readFileSync(dest + firstTestFile, {
+				encoding: 'utf8'
+			}),
+			secondFileContent = fs.readFileSync(dest + secondTestFile, {
+				encoding: 'utf8'
+			});
+
+			firstFileContent.should.equal('Test Data');
+			secondFileContent.should.equal('Test Data');
 
 			cb();
 		}));

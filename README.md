@@ -22,3 +22,8 @@ gulp.task('default', function() {
 		.pipe(preservetime());
 });
 ```
+
+## Changelog
+
+### 1.1.0
+* Support microsecond precision on file times using futimes instead of utimes (thanks ibobo)

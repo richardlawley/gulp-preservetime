@@ -8,7 +8,7 @@ module.exports = function(options) {
 		if (file.isNull()) { return cb(null, file); }
 
 		// opens file
-       fs.open(file.path, 'r', function(err, fd) {
+       fs.open(file.path, 'a', function(err, fd) {
            if (err) {
                cb(err, file);
                return;

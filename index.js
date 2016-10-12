@@ -22,7 +22,7 @@ module.exports = function(options) {
               return;
           }
 
-          fs.close(fd, cb);
+          fs.close(fd);
         });
       }
     });

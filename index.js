@@ -14,7 +14,7 @@ module.exports = function(options) {
           return;
       }
 
-      if(file.stat.atime && file.stat.mtime){
+      if (file.stat.atime && file.stat.mtime) {
         // Update file modification and access time
         fs.futimes(fd, file.stat.atime, file.stat.mtime, function(err) {
           if (err) {
@@ -22,11 +22,14 @@ module.exports = function(options) {
               return;
           }
 
-          fs.close(fd);
+          fs.close(fd, function () {
+            cb(null, file);
+          });
         });
+      } else {
+        // File may be not null, but has change name (map, etc)
+        cb(null, file);
       }
     });
-
-    cb(null, file);
   });
 }

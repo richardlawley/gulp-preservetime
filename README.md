@@ -25,5 +25,7 @@ gulp.task('default', function() {
 
 ## Changelog
 
+### 1.2.1
+* Fix Pipe Interruption (thanks gzzz)
 ### 1.1.0
 * Support microsecond precision on file times using futimes instead of utimes (thanks ibobo)

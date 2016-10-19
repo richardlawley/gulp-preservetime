@@ -14,15 +14,22 @@ module.exports = function (options) {
         return;
       }
 
-      // Update file modification and access time
-      fs.futimes(fd, file.stat.atime, file.stat.mtime, function (err) {
-        if (err) {
-          cb(err, file);
-          return;
-        }
+      if (file.stat.atime && file.stat.mtime) {
+        // Update file modification and access time
+        fs.futimes(fd, file.stat.atime, file.stat.mtime, function (err) {
+          if (err) {
+            cb(err, file);
+            return;
+          }
 
-        fs.close(fd, cb);
-      });
+          fs.close(fd, function () {
+            cb(null, file);
+          });
+        });
+      } else {
+        // File may be not null, but has change name (map, etc)
+        cb(null, file);
+      }
     });
   });
 }
